@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Matcher</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .intro-section {
+            width: 100%;
+            padding: 80px 20px;
+            text-align: center;
+            color: #f0f4f8;
+        }
+
+        .intro-section h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #4a90e2;
+        }
+
+        .intro-section p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #f0f4f8;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #333;
+            color: #f0f4f8;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4a90e2;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        .message-box {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #22a6b3;
+        }
+
+        .resume-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .resume-list li {
+            background-color: #333;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #4a90e2;
+            color: #f0f4f8;
+        }
+
+        .resume-list li span {
+            font-weight: bold;
+        }
+
+        .suggestions {
+            background-color: #333;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #ff6f61;
+            color: #f0f4f8;
+        }
+
+        .suggestions ul {
+            padding-left: 20px;
+        }
+
+        .explanations {
+            background-color: #444;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #4a90e2;
+            color: #f0f4f8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Introduction Section -->
+    <div class="intro-section">
+        <h1>Smart Match Recruiter</h1>
+        <p>
+            Welcome to the Smart Match Recruiter, a powerful tool designed to simplify the recruitment process.
+            Our system analyzes job descriptions and matches them with the most suitable candidates, 
+            helping recruiters find the perfect fit quickly and efficiently. By leveraging advanced 
+            algorithms, Smart Match Recruiter delivers relevant results and offers actionable suggestions, 
+            saving you valuable time and enhancing hiring outcomes.
+        </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Job Description and Resume Matcher</h2>
+
+        <!-- Form to upload Job Description and Resumes -->
+        <form method="POST" action="/matcher" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="job_description">Job Description:</label>
+                <textarea id="job_description" name="job_description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="resumes">Upload Resumes:</label>
+                <input type="file" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+            </div>
+            <button type="submit">Match Resumes</button>
+        </form>
+
+        <!-- Display Results after Form Submission -->
+        {% if message %}
+        <div class="message-box">
+            <p>{{ message }}</p>
+            <ul class="resume-list">
+                {% for index in range(top_resumes|length) %}
+                    <li>
+                        <span>{{ top_resumes[index] }}</span> - Similarity Score: {{ similarity_scores[index] }}
+                        
+                        <!-- Display Section Explanations for Each Resume -->
+                        <div class="explanations">
+                            <strong>Section Similarity Explanations:</strong>
+                            <ul>
+                                {% for explanation in score_explanations[index] %}
+                                    <li>{{ explanation }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Display Suggestions for Each Resume -->
+                        <div class="suggestions">
+                            <strong>Suggestions:</strong>
+                            <ul>
+                                {% for suggestion in resume_suggestions[index] %}
+                                    <li>{{ suggestion }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
