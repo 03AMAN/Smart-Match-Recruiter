@@ -1,4 +1,6 @@
-SMART MATCH RECRUITER 
+SMART MATCH RECRUITER  :
+
+
 This is an AI-powered resume screening and matching web application built using Flask, BERT, SpaCy, and Transformers. It allows recruiters or job seekers to upload resumes and compare them against a job description using semantic similarity techniques, providing:
 
 Top resume matches
