@@ -3,13 +3,13 @@ SMART MATCH RECRUITER  :
 
 This is an AI-powered resume screening and matching web application built using Flask, BERT, SpaCy, and Transformers. It allows recruiters or job seekers to upload resumes and compare them against a job description using semantic similarity techniques, providing:
 
-Top resume matches
+1.] Top resume matches
 
-Detailed similarity scores
+2.] Detailed similarity scores
 
-Section-wise feedback
+3.] Section-wise feedback
 
-Personalized suggestions for improving resumes
+4.] Personalized suggestions for improving resumes
 
 🚀 Key Features
 🔍 Semantic Matching: Uses BERT embeddings and cosine similarity to identify how closely a resume matches a job description.
